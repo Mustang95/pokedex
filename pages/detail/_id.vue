@@ -19,9 +19,7 @@ export default {
 	},
 
 	mounted() {
-		debugger
 		console.log($router.params.card)
-		console.log('$router.params.card')
 	},
 }
 </script>

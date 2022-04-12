@@ -1,74 +1,8 @@
 <template>
 	<main>
-		<header class="header-pokedex">
-			<div class="big-circle"></div>
-			<div class="tiny-circles">
-				<div style="display: flex">
-					<div class="tiny-circles-red"></div>
-					<div class="tiny-circles-yellow"></div>
-					<div class="tiny-circles-green"></div>
-				</div>
-				<div class="border-header"></div>
-			</div>
-		</header>
-		<div class="swiper">
-			<div class="swiper-wrapper">
-				<div
-					v-for="(card, index) in cards.data"
-					:key="card.id"
-					class="swiper-slide"
-					:class="`slide--${index}`"
-				>
-					<div class="slider-content">
-						<div class="card-name">
-							<div style="display: flex">
-								<div class="tiny-circles-red"></div>
-								<div class="tiny-circles-red"></div>
-							</div>
-							{{ card.name }}
-						</div>
-						<!-- <NuxtLink to="/detail">Home page</NuxtLink> -->
-						<img
-							style="border: 2px solid; border-radius: 2%"
-							:src="`${card.images.small}`"
-							alt=""
-							@click="
-								$router.push({
-									path: `/detail/${card.id}`,
-								})
-							"
-						/>
-
-						<div
-							style="
-								display: flex;
-								margin: 10px;
-								align-items: center;
-								align-content: center;
-							"
-						>
-							<div class="card-id">{{ card.id }}</div>
-							<div class="card-type">
-								<div
-									:class="`type--${type}`"
-									v-for="type in card.types"
-									:key="type"
-								>
-									{{ type }}
-								</div>
-							</div>
-						</div>
-
-						<div class="card-index">{{ index }}/{{ cards.data.length }}</div>
-					</div>
-				</div>
-			</div>
-			<!-- If pagination is needed -->
-			<!-- <div class="swiper-pagination"></div> -->
-			<!-- If navigation buttons are needed -->
-			<div class="swiper-button-prev"></div>
-			<div class="swiper-button-next"></div>
-		</div>
+		<Header></Header>
+		<CardsMobile v-if="isMobile"></CardsMobile>
+		<CardsDesktop v-else></CardsDesktop>
 	</main>
 </template>
 
@@ -84,59 +18,35 @@
 //    - componente: Modal detalhe de habilidade
 
 // Import Swiper Vue.js components
-import { Swiper, Navigation, Pagination, Autoplay } from 'swiper'
-import 'swiper/swiper-bundle.min.css'
-import serverAxios from '../api/axios/serverAxios'
-// import { ROUTES } from "@/api/connection.js";
-import { ROUTES } from '../api/connection.js'
+
+import Header from '~/components/Header.vue'
+import CardsMobile from '~/components/CardsMobile.vue'
+import CardsDesktop from '~/components/CardsDesktop.vue'
+import { mapGetters } from 'vuex'
 
 export default {
 	components: {
-		Swiper,
+		Header,
+		CardsMobile,
+		CardsDesktop,
 	},
 	name: 'IndexPage',
-	data() {
-		return {
-			cards: [],
-		}
+	data: () => ({ isMobile: false }),
+	beforeDestroy() {
+		if (typeof window === 'undefined') return
+
+		window.removeEventListener('resize', this.onResize, { passive: true })
 	},
-	async mounted() {
-		// this.sites = await serverAxios.get(ROUTES.api.cards + 'xy1-1')
-		this.cards = await serverAxios.get(ROUTES.api.cards)
-		this.cards = this.cards.data
-		console.log(this.cards)
 
-		// configure Swiper to use modules. The modules were tested with SwiperJS v6.8.4 with NuxtJS v2.15.7
-		// previously it was before export default. Moved here for performance issues. Move back in case of problems.
-		// add or remove unused modules
-		Swiper.use([Navigation, Pagination, Autoplay])
+	mounted() {
+		this.onResize()
+		window.addEventListener('resize', this.onResize, { passive: true })
+	},
 
-		// init Swiper:
-		/* eslint-disable no-unused-vars */
-		const swiper = new Swiper('.swiper', {
-			// Optional parameters
-			// @see https://swiperjs.com/swiper-api#parameters
-			direction: 'horizontal',
-			loop: true,
-			// remove unused modules if needed
-			modules: [Navigation, Pagination, Autoplay],
-			// Pagination if needed
-			pagination: {
-				el: '.swiper-pagination',
-				type: 'bullets',
-				clickable: true,
-			},
-			// Autoplay if needed
-			autoplay: {
-				delay: 3000,
-			},
-			// Navigation arrows if needed
-			navigation: {
-				nextEl: '.swiper-button-next',
-				prevEl: '.swiper-button-prev',
-			},
-			// Configure other options. Not tested
-		})
+	methods: {
+		onResize() {
+			this.isMobile = window.innerWidth < 600
+		},
 	},
 }
 </script>
@@ -155,45 +65,6 @@ body {
 	background-color: #fb1b1b;
 }
 
-.header-pokedex {
-	display: flex;
-
-	height: 10vh;
-	background-color: #fb1b1b;
-	border: 1px solid;
-	border-top: 0;
-	border-left: 0;
-	border-right: 0;
-
-	border-image: linear-gradient(to right, #000 46%, transparent 40%) 100% 1;
-}
-.border-header {
-	width: 100%;
-	height: 50%;
-	border-top: 1px solid black;
-	border-left: 10px solid black;
-	border-radius: 50% 0 0 0;
-
-	margin-top: 5vh;
-}
-.big-circle {
-	margin: 11px 18px 11px 32px;
-
-	width: 60px;
-	height: 45px;
-
-	border-radius: 50%;
-	border: 2px solid white;
-	/* border-image-source: linear-gradient(to bottom right, black, white); */
-	background-color: #196a9f;
-	background-image: radial-gradient(white 5%, #196a9f 65%);
-}
-.tiny-circles {
-	width: 100%;
-	height: 100%;
-	display: flex;
-	padding: 10px;
-}
 .tiny-circles-red {
 	width: 10px;
 	height: 10px;
