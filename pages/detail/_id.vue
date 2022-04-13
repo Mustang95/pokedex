@@ -1,25 +1,25 @@
 <template>
-	<div>detalhe</div>
+	<div>
+		<img :src="`${this.detail.images.large}`" />
+	</div>
 </template>
 
 <script>
 import serverAxios from '@/api/axios/serverAxios'
-// import { ROUTES } from "@/api/connection.js";
 import { ROUTES, getPathWithId } from '@/api/connection'
 export default {
 	data() {
 		return {
-			card: [],
+			detail: null,
 		}
 	},
 	async asyncData({ params }) {
-		const card = await serverAxios.get(
-			getPathWithId(ROUTES.api.cardById, params.id)
-		).data
-	},
-
-	mounted() {
-		console.log($router.params.card)
+		const detail = (
+			await serverAxios.get(getPathWithId(ROUTES.api.cardById, params.id))
+		).data.data
+		return {
+			detail,
+		}
 	},
 }
 </script>

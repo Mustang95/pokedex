@@ -20,6 +20,5 @@ export const getFullPath = function (path) {
 
 // Returns a path with id in between
 export const getPathWithId = function (route, id) {
-	debugger
 	return `${route.path}${id}`
 }

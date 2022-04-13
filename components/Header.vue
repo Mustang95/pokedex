@@ -44,7 +44,6 @@ export default {}
 
 	border-radius: 50%;
 	border: 2px solid white;
-	/* border-image-source: linear-gradient(to bottom right, black, white); */
 	background-color: #196a9f;
 	background-image: radial-gradient(white 5%, #196a9f 65%);
 }

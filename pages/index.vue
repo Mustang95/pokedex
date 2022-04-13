@@ -37,10 +37,6 @@ export default {
 	},
 
 	async mounted() {
-		debugger
-		// this.cards = await serverAxios.get(ROUTES.api.cards)
-		// this.cards = this.cards.data
-
 		this.onResize()
 		window.addEventListener('resize', this.onResize, { passive: true })
 	},
@@ -55,6 +51,7 @@ export default {
 
 <style>
 /* @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
 
 * {
 	box-sizing: border-box;
@@ -63,6 +60,9 @@ export default {
 html,
 body {
 	height: auto;
+
+	font-family: 'Nunito', sans-serif;
+
 	margin: 0;
 	background-color: #fb1b1b;
 }
@@ -123,8 +123,10 @@ body {
 
 .card-name {
 	font-size: 14px;
+	font-weight: bold;
 	text-align: center;
 }
+
 .card-id {
 	flex: 1;
 	font-size: 10px;
@@ -136,6 +138,7 @@ body {
 	flex-direction: column;
 
 	font-size: 12px;
+	font-weight: bold;
 	text-align: center;
 }
 .type--Colorless {
@@ -143,18 +146,21 @@ body {
 	color: black;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Darkness {
 	background-color: black;
 	color: white;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Dragon {
 	background-color: indigo;
 	color: white;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Fairy {
 	background-color: darkcyan;
@@ -167,42 +173,49 @@ body {
 	color: black;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Fire {
 	background-color: red;
 	color: white;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Grass {
 	background-color: green;
 	color: white;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Lightning {
 	background-color: yellow;
 	color: black;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Metal {
 	background-color: silver;
 	color: black;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Psychic {
 	background-color: grey;
-	color: black;
+	color: white;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 .type--Water {
 	background-color: blue;
 	color: white;
 	border-radius: 20%;
 	padding: 2px;
+	margin: 2px;
 }
 
 .card-index {
@@ -214,5 +227,14 @@ body {
 	bottom: 1%;
 	left: 0;
 	right: 0;
+}
+
+@media (min-width: 600px) {
+	.card-name {
+		font-size: 16px;
+	}
+	.card-id {
+		font-size: 16px;
+	}
 }
 </style>
