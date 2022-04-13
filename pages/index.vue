@@ -1,8 +1,8 @@
 <template>
 	<main>
 		<Header></Header>
-		<CardsMobile v-if="isMobile"></CardsMobile>
-		<CardsDesktop v-else></CardsDesktop>
+		<CardsMobile v-show="isMobile" :cards="cards"></CardsMobile>
+		<CardsDesktop v-show="!isMobile"></CardsDesktop>
 	</main>
 </template>
 
@@ -16,13 +16,9 @@
 //
 // - Visão 2 detalhe da carta
 //    - componente: Modal detalhe de habilidade
-
-// Import Swiper Vue.js components
-
 import Header from '~/components/Header.vue'
 import CardsMobile from '~/components/CardsMobile.vue'
 import CardsDesktop from '~/components/CardsDesktop.vue'
-import { mapGetters } from 'vuex'
 
 export default {
 	components: {
@@ -31,14 +27,20 @@ export default {
 		CardsDesktop,
 	},
 	name: 'IndexPage',
-	data: () => ({ isMobile: false }),
+	data: () => ({
+		isMobile: false,
+		cards: [],
+	}),
 	beforeDestroy() {
 		if (typeof window === 'undefined') return
-
 		window.removeEventListener('resize', this.onResize, { passive: true })
 	},
 
-	mounted() {
+	async mounted() {
+		debugger
+		// this.cards = await serverAxios.get(ROUTES.api.cards)
+		// this.cards = this.cards.data
+
 		this.onResize()
 		window.addEventListener('resize', this.onResize, { passive: true })
 	},

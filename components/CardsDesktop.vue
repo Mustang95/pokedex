@@ -1,10 +1,79 @@
 <template lang="">
-  <div>
-    desktop
+<div
+					class="grid-cards"
+>
+
+  <div
+					v-for="(card, index) in cards.data"
+					:key="card.id"
+				>
+					<div class="slider-content">
+						<div class="card-name">
+							<div style="display: flex">
+								<div class="tiny-circles-red"></div>
+								<div class="tiny-circles-red"></div>
+							</div>
+							{{ card.name }}
+						</div>
+						<!-- <NuxtLink to="/detail">Home page</NuxtLink> -->
+						<img
+							style="border: 2px solid; border-radius: 2%"
+							:src="`${card.images.small}`"
+							alt=""
+							@click="
+								$router.push({
+									path: `/detail/${card.id}`,
+								})
+							"
+						/>
+
+						<div
+							style="
+								display: flex;
+								margin: 10px;
+								align-items: center;
+								align-content: center;
+							"
+						>
+							<div class="card-id">{{ card.id }}</div>
+							<div class="card-type">
+								<div
+									:class="`type--${type}`"
+									v-for="type in card.types"
+									:key="type"
+								>
+									{{ type }}
+								</div>
+							</div>
+						</div>
+
+						<!-- <div class="card-index">{{ index }}/{{ cards.data.length }}</div> -->
+					</div>
   </div>
+</div>
+
 </template>
 <script>
-export default {}
+import serverAxios from '../api/axios/serverAxios'
+// import { ROUTES } from "@/api/connection.js";
+import { ROUTES } from '../api/connection.js'
+export default {
+	data() {
+		return {
+			cards: [],
+		}
+	},
+	async mounted() {
+		debugger
+		this.cards = await serverAxios.get(ROUTES.api.cards)
+		this.cards = this.cards.data
+	},
+}
 </script>
-<style lang="">
+<style>
+.grid-cards {
+	display: flex;
+	flex-wrap: wrap;
+	width: fit-content;
+}
 </style>

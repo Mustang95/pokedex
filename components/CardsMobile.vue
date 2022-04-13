@@ -59,11 +59,11 @@
 		</div>
 </template>
 <script>
-import { Swiper, Navigation, Pagination, Autoplay } from 'swiper'
-import 'swiper/swiper-bundle.min.css'
 import serverAxios from '../api/axios/serverAxios'
 // import { ROUTES } from "@/api/connection.js";
 import { ROUTES } from '../api/connection.js'
+import { Swiper, Navigation, Pagination, Autoplay } from 'swiper'
+import 'swiper/swiper-bundle.min.css'
 
 export default {
 	components: {
@@ -76,14 +76,9 @@ export default {
 		}
 	},
 	async mounted() {
-		// this.sites = await serverAxios.get(ROUTES.api.cards + 'xy1-1')
+		debugger
 		this.cards = await serverAxios.get(ROUTES.api.cards)
 		this.cards = this.cards.data
-		console.log(this.cards)
-
-		// configure Swiper to use modules. The modules were tested with SwiperJS v6.8.4 with NuxtJS v2.15.7
-		// previously it was before export default. Moved here for performance issues. Move back in case of problems.
-		// add or remove unused modules
 		Swiper.use([Navigation, Pagination, Autoplay])
 
 		// init Swiper:
