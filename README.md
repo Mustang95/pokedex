@@ -1,4 +1,4 @@
-# pokedex
+# pokedex pokedex
 
 ## Build Setup
 
